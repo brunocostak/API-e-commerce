@@ -6,7 +6,8 @@ import { CreateUserDto } from './dto/CreateUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import IToken from './interface/IToken';
-import { UserGuard } from './user.guard';
+// import { UserGuard } from './user.guard';
+import { AdminGuard } from './admin.guard';
 
 @Controller('user')
 export class UserController {
@@ -15,7 +16,7 @@ export class UserController {
     private jwtService: JwtService,
   ) {}
 
-  @UseGuards(UserGuard)
+  @UseGuards(AdminGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User | IErrorReturn> {
     const idNumber = Number(id);

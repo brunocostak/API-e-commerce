@@ -7,6 +7,7 @@ export declare class UserService {
     private prisma;
     constructor(prisma: PrismaService);
     findUser(id: number): Promise<User | IErrorReturn>;
+    findByEmail(email: string): Promise<User | IErrorReturn>;
     createUser(user: CreateUserDto): Promise<User | IErrorReturn>;
     loginUser(user: LoginUserDto): Promise<User | IErrorReturn>;
 }

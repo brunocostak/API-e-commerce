@@ -24,6 +24,20 @@ export class UserService {
     return user;
   }
 
+  async findByEmail(email: string): Promise<User | IErrorReturn> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      return {
+        statusCode: 404,
+        message: 'User not found',
+        error: 'Not Found',
+      };
+    }
+    return user;
+  }
+
   async createUser(user: CreateUserDto): Promise<User | IErrorReturn> {
     user.password = await cryptoPassword(user.password);
     const createdUser = await this.prisma.user.create({
@@ -43,16 +57,13 @@ export class UserService {
   }
 
   async loginUser(user: LoginUserDto): Promise<User | IErrorReturn> {
-    console.log(user.email);
     const loginUser = await this.prisma.user.findUnique({
       where: { email: user.email },
     });
-    console.log(loginUser);
     const passwordMatch = await comparePassword(
       user.password,
       loginUser.password,
     );
-    console.log(passwordMatch);
     if (!loginUser || !passwordMatch) {
       return {
         statusCode: 404,

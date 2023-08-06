@@ -30,6 +30,19 @@ let UserService = exports.UserService = class UserService {
         }
         return user;
     }
+    async findByEmail(email) {
+        const user = await this.prisma.user.findUnique({
+            where: { email },
+        });
+        if (!user) {
+            return {
+                statusCode: 404,
+                message: 'User not found',
+                error: 'Not Found',
+            };
+        }
+        return user;
+    }
     async createUser(user) {
         user.password = await (0, cryptoPassword_1.cryptoPassword)(user.password);
         const createdUser = await this.prisma.user.create({
@@ -48,13 +61,10 @@ let UserService = exports.UserService = class UserService {
         return createdUser;
     }
     async loginUser(user) {
-        console.log(user.email);
         const loginUser = await this.prisma.user.findUnique({
             where: { email: user.email },
         });
-        console.log(loginUser);
         const passwordMatch = await (0, cryptoPassword_1.comparePassword)(user.password, loginUser.password);
-        console.log(passwordMatch);
         if (!loginUser || !passwordMatch) {
             return {
                 statusCode: 404,

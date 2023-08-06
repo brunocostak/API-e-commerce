@@ -18,7 +18,7 @@ const user_service_1 = require("./user.service");
 const CreateUser_dto_1 = require("./dto/CreateUser.dto");
 const LoginUser_dto_1 = require("./dto/LoginUser.dto");
 const jwt_1 = require("@nestjs/jwt");
-const user_guard_1 = require("./user.guard");
+const admin_guard_1 = require("./admin.guard");
 let UserController = exports.UserController = class UserController {
     constructor(userService, jwtService) {
         this.userService = userService;
@@ -43,7 +43,7 @@ let UserController = exports.UserController = class UserController {
     }
 };
 __decorate([
-    (0, common_1.UseGuards)(user_guard_1.UserGuard),
+    (0, common_1.UseGuards)(admin_guard_1.AdminGuard),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
