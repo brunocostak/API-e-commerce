@@ -39,6 +39,10 @@ let ProductController = exports.ProductController = class ProductController {
         const updatedProduct = await this.productService.updateProduct(idNumber, updateProductDto);
         return updatedProduct;
     }
+    async findProductByNameOrCategory(name, category) {
+        const product = await this.productService.findProductByNameOrCategory(name, category);
+        return product;
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -69,6 +73,14 @@ __decorate([
     __metadata("design:paramtypes", [String, update_product_dto_1.UpdateProductDto]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "updateProduct", null);
+__decorate([
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Query)('name')),
+    __param(1, (0, common_1.Query)('category')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "findProductByNameOrCategory", null);
 exports.ProductController = ProductController = __decorate([
     (0, common_1.Controller)('product'),
     __metadata("design:paramtypes", [product_service_1.ProductService])
